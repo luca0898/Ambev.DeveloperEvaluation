@@ -8,11 +8,11 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Commands.CreateSale
     {
         public CreateSaleProfile()
         {
+            CreateMap<SaleItemDto, SaleItem>().ReverseMap();
+
             CreateMap<CreateSaleCommand, Sale>()
                 .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items))
                 .ReverseMap();
-
-            CreateMap<SaleItemDto, SaleItem>().ReverseMap();
 
             CreateMap<Sale, CreateSaleResult>().ReverseMap();
         }

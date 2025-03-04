@@ -2,109 +2,96 @@
 using Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.Domain.Models.SaleDomain.Validation;
 
-namespace Ambev.DeveloperEvaluation.Domain.Models.SaleDomain.Entities
+namespace Ambev.DeveloperEvaluation.Domain.Models.SaleDomain.Entities;
+
+public class Sale : BaseEntity
 {
-    public class Sale : BaseEntity
+    public string SaleNumber { get; set; } = string.Empty;
+    public decimal TotalAmount { get; set; }
+    public bool IsCancelled { get; set; } = false;
+    public Guid? CustomerId { get; set; }
+    public Guid? BranchId { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime? UpdatedAt { get; set; }
+    public List<SaleItem> Items { get; set; } = [];
+
+    public ValidationResultDetail Validate()
     {
-        public string SaleNumber { get; private set; } = string.Empty;
-        public decimal TotalAmount { get; private set; }
-        public bool IsCancelled { get; private set; }
-        public Guid? CustomerId { get; private set; }
-        public Guid? BranchId { get; private set; }
-        public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; private set; }
-
-        private readonly List<SaleItem> _items = [];
-        public IReadOnlyCollection<SaleItem> Items => _items;
-
-        public ValidationResultDetail Validate()
+        var validator = new SaleValidator();
+        var result = validator.Validate(this);
+        return new ValidationResultDetail
         {
-            var validator = new SaleValidator();
-            var result = validator.Validate(this);
-            return new ValidationResultDetail
-            {
-                IsValid = result.IsValid,
-                Errors = result.Errors.Select(o => (ValidationErrorDetail)o)
-            };
+            IsValid = result.IsValid,
+            Errors = result.Errors.Select(o => (ValidationErrorDetail)o)
+        };
+    }
+
+    public void Update(decimal totalAmount, bool isCancelled, Guid? customerId, Guid? branchId)
+    {
+        TotalAmount = totalAmount;
+        IsCancelled = isCancelled;
+        CustomerId = customerId;
+        BranchId = branchId;
+    }
+
+    public void UpdateItems(SaleItem[] items)
+    {
+        Items.RemoveAll(x => items.All(itemScreen => itemScreen.ProductId != x.ProductId));
+
+        foreach (var itemScreen in items)
+        {
+            var existingItem = Items.Find(item => item.ProductId == itemScreen.ProductId);
+
+            if (existingItem is not null)
+                existingItem.Update(itemScreen);
+            else
+                Items.Add(itemScreen);
         }
 
-        public void Update(decimal totalAmount, bool isCancelled, Guid? customerId, Guid? branchId)
+        Calculate();
+        UpdateTimestamp();
+    }
+
+    public void Calculate()
+    {
+        TotalAmount = Items.Sum(item => item.Quantity);
+        Items.ForEach(item => item.CalculateDiscount());
+    }
+
+    public void Cancel()
+    {
+        if (IsCancelled)
+            throw new InvalidOperationException("Sale is already cancelled.");
+
+        IsCancelled = true;
+        UpdateTimestamp();
+    }
+
+    public void UpdateTimestamp()
+    {
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void AddItem(SaleItem item)
+    {
+        Items.Add(item);
+    }
+
+    public void CancelItem(Guid itemId)
+    {
+        var item = Items.FirstOrDefault(i => i.Id == itemId);
+        _ = item ?? throw new KeyNotFoundException($"Item with ID {itemId} not found.");
+
+        Items.Remove(item);
+
+        if (Items.Count == 0)
         {
-            TotalAmount = totalAmount;
-            IsCancelled = isCancelled;
-            CustomerId = customerId;
-            BranchId = branchId;
+            Cancel();
         }
-
-        public void UpdateItems(SaleItem[] items)
+        else
         {
-            _items.RemoveAll(x => items.All(itemScreen => itemScreen.ProductId != x.ProductId));
-
-            foreach (var itemScreen in items)
-            {
-                var existingItem = _items.Find(item => item.ProductId == itemScreen.ProductId);
-
-                if (existingItem is not null)
-                    existingItem.Update(itemScreen);
-                else
-                    _items.Add(itemScreen);
-            }
-
             Calculate();
             UpdateTimestamp();
-        }
-
-        public void Calculate()
-        {
-            CalculateTotalAmount();
-            CalculateDiscount();
-        }
-
-        public void Cancel()
-        {
-            if (IsCancelled)
-                throw new InvalidOperationException("Sale is already cancelled.");
-
-            IsCancelled = true;
-            UpdateTimestamp();
-        }
-
-        public void CancelItem(Guid itemId)
-        {
-            var item = _items.FirstOrDefault(i => i.Id == itemId);
-            if (item == null)
-                throw new KeyNotFoundException($"Item with ID {itemId} not found.");
-
-            _items.Remove(item);
-
-            if (_items.Count == 0)
-                Cancel();
-            else
-            {
-                Calculate();
-                UpdateTimestamp();
-            }
-        }
-
-        public void UpdateTimestamp()
-        {
-            UpdatedAt = DateTime.UtcNow;
-        }
-
-        public void AddItem(SaleItem item)
-        {
-            _items.Add(item);
-        }
-
-        private void CalculateTotalAmount()
-        {
-            TotalAmount = _items.Sum(item => item.Quantity);
-        }
-
-        private void CalculateDiscount()
-        {
-            foreach (var item in _items)
-                item.CalculateDiscount();
         }
     }
 }

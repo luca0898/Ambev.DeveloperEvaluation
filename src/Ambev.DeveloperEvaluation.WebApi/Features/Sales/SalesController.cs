@@ -18,12 +18,6 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
     [Route("api/[controller]")]
     public class SalesController(IMediator mediator, IMapper mapper) : BaseController
     {
-        /// <summary>
-        ///     Creates a new sale
-        /// </summary>
-        /// <param name="request">The sale creation request</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>The created sale details</returns>
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponseWithData<CreateSaleResponse>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]

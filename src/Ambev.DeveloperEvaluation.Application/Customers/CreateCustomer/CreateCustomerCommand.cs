@@ -4,8 +4,12 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Customers.CreateCustomer;
 
-public sealed record CreateCustomerCommand(CreateUserCommand UserCommand, string Name, string ExternalId) : IRequest<CreateCustomerResult>
+public sealed class CreateCustomerCommand : IRequest<CreateCustomerResult>
 {
+    public CreateUserCommand UserCommand { get; set; }
+    public string Name { get; set; }
+    public string ExternalId { get; set; }
+
     public ValidationResultDetail Validate()
     {
         var validator = new CreateCustomerCommandValidator();

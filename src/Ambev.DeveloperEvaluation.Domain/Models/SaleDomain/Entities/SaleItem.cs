@@ -4,6 +4,18 @@ namespace Ambev.DeveloperEvaluation.Domain.Models.SaleDomain.Entities
 {
     public class SaleItem : BaseEntity
     {
+        public int Quantity { get; private set; }
+        public decimal UnitPrice { get; private set; }
+        public decimal Discount { get; private set; }
+        public decimal Total { get; private set; }
+        public Guid ProductId { get; private set; }
+        public Guid SaleId { get; private set; }
+        public Sale? Sale { get; }
+
+        public SaleItem()
+        {
+            
+        }
         public SaleItem(int quantity, decimal unitPrice, Guid productId, Guid saleId)
         {
             ValidateQuantity(quantity);
@@ -13,16 +25,6 @@ namespace Ambev.DeveloperEvaluation.Domain.Models.SaleDomain.Entities
             ProductId = productId;
             SaleId = saleId;
         }
-
-        public int Quantity { get; private set; }
-        public decimal UnitPrice { get; private set; }
-        public decimal Discount { get; private set; }
-        public decimal Total { get; private set; }
-
-        public Guid ProductId { get; private set; }
-        public Guid SaleId { get; private set; }
-        public Sale? Sale { get; }
-
         private static void ValidateQuantity(int quantity)
         {
             if (quantity > 20)
