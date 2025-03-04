@@ -9,6 +9,7 @@ public class ProductRatingConfiguration : IEntityTypeConfiguration<ProductRating
     public void Configure(EntityTypeBuilder<ProductRating> builder)
     {
         builder.HasKey(pr => pr.Id);
+        builder.ToTable("ProductRatings");
 
         builder.Property(pr => pr.Rate)
             .IsRequired()
@@ -23,7 +24,5 @@ public class ProductRatingConfiguration : IEntityTypeConfiguration<ProductRating
         builder.HasOne<Product>()
             .WithOne()
             .HasForeignKey<ProductRating>(pr => pr.ProductId);
-
-        builder.ToTable("ProductRatings");
     }
 }

@@ -14,6 +14,11 @@ public class Product : BaseEntity
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; }
 
+    public Product()
+    {
+        
+    }
+
     public Product(
         string title,
         decimal price,
