@@ -3,20 +3,20 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Users.UpdateUser
 {
-    public sealed record UpdateUserCommand(
-        Guid Id,
-        string Username,
-        string Password,
-        string Phone,
-        string Email,
-        string FirstName,
-        string LastName,
-        AddressDetail Address,
-        UserStatus Status,
-        UserRole Role
-    ) : IRequest<UpdateUserResult>
+    public sealed class UpdateUserCommand : IRequest<UpdateUserResult>
     {
+        public Guid Id { get; set; }
+        public string Username { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+        public string Phone { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+        public AddressDetail Address { get; set; } = new AddressDetail();
+        public UserStatus Status { get; set; }
+        public UserRole Role { get; set; }
     }
+
 
     public class AddressDetail
     {

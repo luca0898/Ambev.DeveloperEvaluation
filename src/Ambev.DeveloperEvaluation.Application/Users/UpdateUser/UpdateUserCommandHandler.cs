@@ -1,9 +1,8 @@
-﻿using Ambev.DeveloperEvaluation.Common.Validation;
-using Ambev.DeveloperEvaluation.Domain.Models.UserAggregate.Common;
+﻿using Ambev.DeveloperEvaluation.Domain.Models.UserAggregate.Common;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
+using FluentValidation;
 using MediatR;
-using System.Data;
 
 namespace Ambev.DeveloperEvaluation.Application.Users.UpdateUser;
 
@@ -24,30 +23,11 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Updat
         var validationResult = await validator.ValidateAsync(command, cancellationToken);
 
         if (!validationResult.IsValid)
-        {
-            return new UpdateUserResult
-            {
-                Success = false,
-                Message = "Validation failed",
-                Errors = validationResult.Errors.Select(e => new ValidationErrorDetail
-                {
-                    PropertyName = e.PropertyName,
-                    ErrorMessage = e.ErrorMessage
-                }).ToList()
-            };
-        }
+            throw new ValidationException(validationResult.Errors);
 
 
         var user = await _userRepository.GetByIdAsync(command.Id, cancellationToken);
-
-        if (user == null)
-        {
-            return new UpdateUserResult
-            {
-                Success = false,
-                Message = $"User with Id {command.Id} not found."
-            };
-        }
+        _ = user ?? throw new KeyNotFoundException($"User with id {command.Id} not found");
 
         user.Update(
             command.Username,

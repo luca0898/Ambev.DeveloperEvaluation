@@ -79,18 +79,13 @@ public class UsersController : BaseController
             });
         }
 
-        var command = _mapper.Map<UpdateUserCommand>(request) with { Id = id };
+        var command = _mapper.Map<UpdateUserCommand>(request);
+        command.Id = id;
 
         var response = await _mediator.Send(command, cancellationToken);
 
-        if (response.Success == false)
-        {
-            return NotFound(new ApiResponse
-            {
-                Success = false,
-                Message = $"User with ID {id} not found."
-            });
-        }
+        if (response is null)
+            return NotFound(new ApiResponse { Success = false, Message = $"User with ID {id} not found." });
 
         return Ok(new ApiResponseWithData<UpdateUserResponse>
         {
