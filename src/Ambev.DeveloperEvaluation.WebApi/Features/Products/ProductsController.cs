@@ -64,22 +64,27 @@ public class ProductsController : ControllerBase
         return Ok(_mapper.Map<UpdateProductResponse>(response));
     }
 
-    [HttpDelete("{id:int}")]
+    [HttpDelete("{id}")]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteProduct([FromRoute] Guid id, CancellationToken cancellationToken = default)
     {
-        var command = new DeleteProductCommand { Id = id };
-        var result = await _mediator.Send(command, cancellationToken);
-
-        if (!result)
-        {
+        if (id == Guid.Empty)
             return NotFound(new ApiResponse
             {
                 Success = false,
-                Message = "Product not found."
+                Message = "Route Parameter Id must be provided"
             });
-        }
+
+        var command = new DeleteProductCommand(id);
+        var result = await _mediator.Send(command, cancellationToken);
+
+        if (result == null || result.Success == false)
+            return NotFound(new ApiResponse
+            {
+                Success = false,
+                Message = $"Product with ID {id} not found."
+            });
 
         return NoContent();
     }
