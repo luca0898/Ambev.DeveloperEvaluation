@@ -1,8 +1,5 @@
 ﻿namespace Ambev.DeveloperEvaluation.Application.Categories.UpdateCategory
 {
-    /// <summary>
-    /// Response for the UpdateCategory command.
-    /// </summary>
     public class UpdateCategoryResult
     {
         public Guid Id { get; set; }

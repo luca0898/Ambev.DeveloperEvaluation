@@ -14,7 +14,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Models.SaleDomain.Entities
 
         public SaleItem()
         {
-            
+
         }
         public SaleItem(int quantity, decimal unitPrice, Guid productId, Guid saleId)
         {

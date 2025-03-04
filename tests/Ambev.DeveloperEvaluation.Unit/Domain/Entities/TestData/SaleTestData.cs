@@ -3,9 +3,6 @@ using Bogus;
 
 namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities.TestData
 {
-    /// <summary>
-    /// Provides methods for generating test data for the Sale entity.
-    /// </summary>
     public static class SaleTestData
     {
         private static readonly Faker<Sale> SaleFaker = new Faker<Sale>()
@@ -13,7 +10,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities.TestData
             .RuleFor(s => s.SaleNumber, f => f.Commerce.Ean13())
             .RuleFor(s => s.CustomerId, _ => Guid.NewGuid())
             .RuleFor(s => s.BranchId, _ => Guid.NewGuid())
-            .RuleFor(s => s.TotalAmount, _ => 0m) // Calculated dynamically
+            .RuleFor(s => s.TotalAmount, _ => 0m)
             .RuleFor(s => s.IsCancelled, _ => false);
 
         private static readonly Faker<SaleItem> SaleItemFaker = new Faker<SaleItem>()
@@ -24,11 +21,6 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities.TestData
                 saleId: Guid.NewGuid()
             ));
 
-        /// <summary>
-        /// Generates a valid Sale with a random number of items.
-        /// </summary>
-        /// <param name="itemCount">Number of items to generate.</param>
-        /// <returns>A valid Sale entity with items.</returns>
         public static Sale GenerateValidSale(int itemCount = 3)
         {
             var sale = SaleFaker.Generate();
@@ -49,12 +41,6 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities.TestData
 
             return sale;
         }
-
-        /// <summary>
-        /// Generates a SaleItem with a specific quantity.
-        /// </summary>
-        /// <param name="quantity">The quantity of the SaleItem.</param>
-        /// <returns>A SaleItem entity.</returns>
         public static SaleItem GenerateSaleItem(int quantity)
         {
             return SaleItemFaker.Clone()

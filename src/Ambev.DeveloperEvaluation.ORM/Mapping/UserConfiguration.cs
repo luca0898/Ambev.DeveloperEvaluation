@@ -76,19 +76,16 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                     .IsRequired()
                     .HasMaxLength(50);
             });
-        });
-
-        // Add CreatedAt, UpdatedAt, and DeletedAt properties
-        builder.Property(u => u.CreatedAt)
+        }); builder.Property(u => u.CreatedAt)
             .IsRequired()
             .HasColumnType("timestamp")
-            .HasDefaultValueSql("CURRENT_TIMESTAMP"); // Default to current timestamp
+            .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
         builder.Property(u => u.UpdatedAt)
             .IsRequired()
             .HasColumnType("timestamp")
             .HasDefaultValueSql("CURRENT_TIMESTAMP")
-            .ValueGeneratedOnAddOrUpdate(); // Automatically update on entity updates
+            .ValueGeneratedOnAddOrUpdate();
 
     }
 }

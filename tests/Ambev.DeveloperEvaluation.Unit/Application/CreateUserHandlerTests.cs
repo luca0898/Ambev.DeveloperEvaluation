@@ -44,8 +44,6 @@ public class CreateUserHandlerTests
         {
             Id = user.Id,
         };
-
-
         _mapper.Map<User>(command).Returns(user);
         _mapper.Map<CreateUserResult>(user).Returns(result);
 

@@ -3,9 +3,6 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.Queries.GetProductsByCategory
 {
-    /// <summary>
-    /// Query to retrieve products by category with pagination and sorting.
-    /// </summary>
     public class GetProductsByCategoryQuery : IRequest<PaginatedResult<ProductDto>>
     {
         public string Category { get; set; } = string.Empty;

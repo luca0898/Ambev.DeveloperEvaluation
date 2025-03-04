@@ -3,9 +3,6 @@ using AutoMapper;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Categories.CreateCategory
 {
-    /// <summary>
-    /// Profile for mapping CreateCategory operations.
-    /// </summary>
     public class CreateCategoryProfile : Profile
     {
         public CreateCategoryProfile()

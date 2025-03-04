@@ -5,9 +5,6 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Categories.UpdateCategory
 {
-    /// <summary>
-    /// Handler for processing UpdateCategoryCommand.
-    /// </summary>
     public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryCommand, UpdateCategoryResult>
     {
         private readonly ICategoryRepository _categoryRepository;

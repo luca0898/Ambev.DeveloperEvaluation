@@ -14,7 +14,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
     [Migration("20241209203836_Initial")]
     partial class Initial
     {
-        /// <inheritdoc />
+        
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

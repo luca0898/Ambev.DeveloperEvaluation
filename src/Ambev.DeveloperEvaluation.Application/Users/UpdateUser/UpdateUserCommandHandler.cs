@@ -24,9 +24,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Updat
 
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
-
-
-        var user = await _userRepository.GetByIdAsync(command.Id, cancellationToken);
+            var user = await _userRepository.GetByIdAsync(command.Id, cancellationToken);
         _ = user ?? throw new KeyNotFoundException($"User with id {command.Id} not found");
 
         user.Update(
@@ -54,11 +52,6 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Updat
                 }
             }
         );
-
-
-        var updatedUser = await _userRepository.UpdateAsync(user, cancellationToken);
-
-
-        return _mapper.Map<UpdateUserResult>(updatedUser);
+        var updatedUser = await _userRepository.UpdateAsync(user, cancellationToken); return _mapper.Map<UpdateUserResult>(updatedUser);
     }
 }

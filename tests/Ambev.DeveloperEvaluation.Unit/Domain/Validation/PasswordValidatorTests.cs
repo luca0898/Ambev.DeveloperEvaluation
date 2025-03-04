@@ -23,7 +23,7 @@ public class PasswordValidatorTests
 
         result.ShouldNotHaveAnyValidationErrors();
     }
-    
+
     [Fact(DisplayName = "Empty password should fail validation")]
     public void Given_EmptyPassword_When_Validated_Then_ShouldHaveError()
     {

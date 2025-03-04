@@ -5,9 +5,6 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.Queries.GetProductsByCategory
 {
-    /// <summary>
-    /// Handler for GetProductsByCategoryQuery.
-    /// </summary>
     public class GetProductsByCategoryHandler : IRequestHandler<GetProductsByCategoryQuery, PaginatedResult<ProductDto>>
     {
         private readonly IProductRepository _productRepository;

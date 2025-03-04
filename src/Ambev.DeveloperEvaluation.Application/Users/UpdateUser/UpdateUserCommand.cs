@@ -16,8 +16,6 @@ namespace Ambev.DeveloperEvaluation.Application.Users.UpdateUser
         public UserStatus Status { get; set; }
         public UserRole Role { get; set; }
     }
-
-
     public class AddressDetail
     {
         public string City { get; set; } = string.Empty;

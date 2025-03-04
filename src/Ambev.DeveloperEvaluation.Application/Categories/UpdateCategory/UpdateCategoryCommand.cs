@@ -2,9 +2,6 @@
 
 namespace Ambev.DeveloperEvaluation.Application.Categories.UpdateCategory
 {
-    /// <summary>
-    /// Command for updating a category.
-    /// </summary>
     public record UpdateCategoryCommand : IRequest<UpdateCategoryResult>
     {
         public Guid Id { get; init; }

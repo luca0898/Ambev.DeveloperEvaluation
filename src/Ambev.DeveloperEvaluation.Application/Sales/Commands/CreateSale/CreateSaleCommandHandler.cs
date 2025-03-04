@@ -8,8 +8,8 @@ using MediatR;
 namespace Ambev.DeveloperEvaluation.Application.Sales.Commands.CreateSale
 {
     public class CreateSaleCommandHandler(
-        ISaleRepository saleRepository, 
-        IMapper mapper, 
+        ISaleRepository saleRepository,
+        IMapper mapper,
         IMediator mediator)
     : IRequestHandler<CreateSaleCommand, CreateSaleResult>
     {

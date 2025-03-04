@@ -4,9 +4,6 @@ using AutoMapper;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.Queries.GetProductsByCategory
 {
-    /// <summary>
-    /// Profile for mapping GetProductsByCategory operations.
-    /// </summary>
     public class GetProductsByCategoryProfile : Profile
     {
         public GetProductsByCategoryProfile()

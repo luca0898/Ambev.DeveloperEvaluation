@@ -20,8 +20,6 @@ public class DefaultContext(DbContextOptions<DefaultContext> options) : DbContex
     public DbSet<Category> Categories { get; set; }
     public DbSet<Branch> Branches { get; set; }
     public DbSet<Cart> Carts { get; set; }
-
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

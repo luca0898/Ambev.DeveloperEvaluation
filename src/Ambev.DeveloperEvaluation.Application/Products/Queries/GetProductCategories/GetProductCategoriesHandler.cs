@@ -3,9 +3,6 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.Queries.GetProductCategories
 {
-    /// <summary>
-    /// Handler for GetProductCategoriesQuery.
-    /// </summary>
     public class GetProductCategoriesHandler : IRequestHandler<GetProductCategoriesQuery, List<string>>
     {
         private readonly IProductRepository _productRepository;

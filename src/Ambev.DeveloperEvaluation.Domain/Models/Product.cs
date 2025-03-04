@@ -16,7 +16,7 @@ public class Product : BaseEntity
 
     public Product()
     {
-        
+
     }
 
     public Product(

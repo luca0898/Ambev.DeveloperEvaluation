@@ -1,5 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Common.Validation;
-using Ambev.DeveloperEvaluation.Domain.Models.UserAggregate.Common;
+﻿using Ambev.DeveloperEvaluation.Domain.Models.UserAggregate.Common;
 using Ambev.DeveloperEvaluation.Domain.Models.UserAggregate.Enums;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Users.UpdateUser;

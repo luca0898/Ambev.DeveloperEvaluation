@@ -82,8 +82,6 @@ public class ProductRepository : IProductRepository
             .Distinct()
             .ToListAsync(cancellationToken);
     }
-
-
     public async Task<PaginatedList<Product>> GetProductsByCategoryAsync(
         string category,
         int page,
@@ -109,8 +107,6 @@ public class ProductRepository : IProductRepository
 
         return PaginatedList<Product>.Create(items, totalItems, page, size);
     }
-
-
     private IQueryable<Product> ApplyOrdering(IQueryable<Product> query, string order)
     {
         var orderFields = order.Split(',');

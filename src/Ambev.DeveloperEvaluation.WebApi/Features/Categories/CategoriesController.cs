@@ -161,6 +161,4 @@ public class CategoriesController : ControllerBase
             Message = "Category deleted successfully."
         });
     }
-
-
 }

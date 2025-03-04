@@ -1,8 +1,5 @@
 ﻿namespace Ambev.DeveloperEvaluation.Application.Products.DTOs
 {
-    /// <summary>
-    /// Represents a paginated result.
-    /// </summary>
     public class PaginatedResult<T>
     {
         public List<T> Data { get; set; } = new();

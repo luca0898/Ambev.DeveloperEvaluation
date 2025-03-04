@@ -11,12 +11,6 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Customers
     [Route("api/[controller]")]
     public class CustomersController(IMediator mediator, IMapper mapper) : BaseController
     {
-        /// <summary>
-        ///     Creates a new customer
-        /// </summary>
-        /// <param name="request">The customer creation request</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>The created customer details</returns>
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponseWithData<CreateCustomerResponse>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]

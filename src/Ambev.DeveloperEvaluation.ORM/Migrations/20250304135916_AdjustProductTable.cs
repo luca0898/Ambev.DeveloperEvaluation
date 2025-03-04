@@ -1,14 +1,13 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Ambev.DeveloperEvaluation.ORM.Migrations
 {
-    /// <inheritdoc />
+
     public partial class AdjustProductTable : Migration
     {
-        /// <inheritdoc />
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<DateTime>(
@@ -111,8 +110,6 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                 principalTable: "Products",
                 principalColumn: "Id");
         }
-
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(

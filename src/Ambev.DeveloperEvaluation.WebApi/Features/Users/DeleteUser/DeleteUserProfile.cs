@@ -5,9 +5,6 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Users.DeleteUser;
 
 public class DeleteUserProfile : Profile
 {
-    /// <summary>
-    /// Initializes the mappings for DeleteUser feature
-    /// </summary>
     public DeleteUserProfile()
     {
         CreateMap<Guid, DeleteUserCommand>()

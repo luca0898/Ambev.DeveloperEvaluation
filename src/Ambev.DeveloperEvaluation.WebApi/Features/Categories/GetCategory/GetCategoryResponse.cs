@@ -1,8 +1,5 @@
 ﻿namespace Ambev.DeveloperEvaluation.WebApi.Features.Categories.GetCategory
 {
-    /// <summary>
-    /// Represents the response for getting a category by ID.
-    /// </summary>
     public class GetCategoryResponse
     {
         public Guid Id { get; set; }

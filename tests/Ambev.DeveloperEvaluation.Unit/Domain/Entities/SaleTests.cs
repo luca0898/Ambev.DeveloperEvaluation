@@ -44,7 +44,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities
         {
             var sale = SaleTestData.GenerateValidSale(0);
 
-            var action = () => sale.AddItem(new SaleItem(21, 50m, Guid.NewGuid(), sale.Id)); // 21 items
+            var action = () => sale.AddItem(new SaleItem(21, 50m, Guid.NewGuid(), sale.Id));
 
             action.Should().Throw<InvalidOperationException>()
                 .WithMessage("Cannot sell more than 20 identical items.");
@@ -69,10 +69,6 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities
 
             item.Discount.Should().Be(expectedDiscount);
         }
-
-        /// <summary>
-        /// Tests that validation passes when all sale properties are valid.
-        /// </summary>
         [Fact(DisplayName = "Validation should pass for valid sale data")]
         public void Given_ValidSaleData_When_Validated_Then_ShouldReturnValid()
         {

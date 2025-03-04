@@ -1,8 +1,5 @@
 ﻿namespace Ambev.DeveloperEvaluation.Application.Products.DTOs
 {
-    /// <summary>
-    /// Data Transfer Object for Product.
-    /// </summary>
     public class ProductDto
     {
         public int Id { get; set; }

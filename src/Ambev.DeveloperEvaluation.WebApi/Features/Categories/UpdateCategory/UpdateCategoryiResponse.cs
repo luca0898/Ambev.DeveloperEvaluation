@@ -1,8 +1,5 @@
 ﻿namespace Ambev.DeveloperEvaluation.WebApi.Features.Categories.UpdateCategory
 {
-    /// <summary>
-    /// Represents the response for updating a category.
-    /// </summary>
     public class UpdateCategoryResponse
     {
         public Guid Id { get; set; }

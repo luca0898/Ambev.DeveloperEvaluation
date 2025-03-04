@@ -15,7 +15,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
     [Migration("20250304135916_AdjustProductTable")]
     partial class AdjustProductTable
     {
-        /// <inheritdoc />
+        
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
