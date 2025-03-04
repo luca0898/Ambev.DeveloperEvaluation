@@ -10,6 +10,7 @@ public class CreateProductProfile : Profile
     {
         CreateMap<CreateProductRequest, CreateProductCommand>();
         CreateMap<ProductRatingRequest, ProductRatingDto>();
-        CreateMap<CreateProductResult, CreateProductResponse>();
+        CreateMap<CreateProductResult, CreateProductResponse>()
+            .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category));
     }
 }

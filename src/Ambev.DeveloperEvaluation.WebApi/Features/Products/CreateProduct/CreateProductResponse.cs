@@ -1,8 +1,14 @@
-﻿namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct;
+﻿using Ambev.DeveloperEvaluation.Application.Products.DTOs;
 
-public sealed record CreateProductResponse
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct;
+
+public sealed class CreateProductResponse
 {
     public Guid Id { get; set; }
-    public string Name { get; init; } = string.Empty;
-    public decimal UnitPrice { get; init; }
+    public string Title { get; set; } = string.Empty;
+    public decimal Price { get; set; }
+    public string Description { get; set; } = string.Empty;
+    public string Category { get; set; } = string.Empty;
+    public string Image { get; set; } = string.Empty;
+    public ProductRatingDto Rating { get; set; }
 }

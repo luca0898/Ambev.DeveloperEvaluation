@@ -10,10 +10,14 @@ public class CreateProductProfile : Profile
     {
         CreateMap<CreateProductCommand, Product>()
             .ForMember(dest => dest.CategoryId, opt => opt.Ignore())
+            .ForMember(dest => dest.Category, opt => opt.Ignore())
             .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Rating));
 
         CreateMap<Product, CreateProductResult>()
-            .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => new ProductRatingDto(src.Rating.Rate, src.Rating.Count)));
+            .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category.Name))
+            .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Rating))
+            .ReverseMap()
+            .ForMember(dest => dest.Category, opt => opt.Ignore());
 
         CreateMap<ProductRatingDto, ProductRating>().ReverseMap();
     }

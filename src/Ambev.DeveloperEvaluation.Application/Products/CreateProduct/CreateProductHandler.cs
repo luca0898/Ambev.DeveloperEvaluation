@@ -1,5 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Products.DTOs;
-using Ambev.DeveloperEvaluation.Domain.Models;
+﻿using Ambev.DeveloperEvaluation.Domain.Models;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using FluentValidation;
@@ -20,25 +19,12 @@ public class CreateProductHandler(IProductRepository _productRepository, ICatego
         var category = await _categoryRepository.GetByNameAsync(command.Category, cancellationToken);
         _ = category ?? throw new KeyNotFoundException($"Category {command.Category} not found");
 
-        var product = new Product(
-             command.Title,
-             command.Price,
-             command.Description,
-             command.Image,
-             _mapper.Map<ProductRating>(command.Rating),
-             category.Id
-         );
+        var product = _mapper.Map<Product>(command);
+        product.CategoryId = category.Id;
+        product.Category = category;
 
         var createdProduct = await _productRepository.CreateAsync(product, cancellationToken);
 
-        return new CreateProductResult(
-            createdProduct.Id,
-            createdProduct.Title,
-            createdProduct.Price,
-            createdProduct.Description,
-            category.Name,
-            createdProduct.Image,
-            _mapper.Map<ProductRatingDto>(createdProduct.Rating)
-        );
+        return _mapper.Map<CreateProductResult>(createdProduct);
     }
 }
