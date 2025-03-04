@@ -21,8 +21,8 @@ public class ProductRatingConfiguration : IEntityTypeConfiguration<ProductRating
         builder.Property(pr => pr.ProductId)
             .IsRequired();
 
-        builder.HasOne<Product>()
-            .WithOne()
+        builder.HasOne(pr => pr.Product)
+            .WithOne(p => p.Rating)
             .HasForeignKey<ProductRating>(pr => pr.ProductId);
     }
 }

@@ -1,6 +1,0 @@
-﻿namespace Ambev.DeveloperEvaluation.Application.Products.Queries.GetProducts
-{
-    internal class GetProductsHandler
-    {
-    }
-}

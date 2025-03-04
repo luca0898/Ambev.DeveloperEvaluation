@@ -1,8 +1,8 @@
-﻿using Ambev.DeveloperEvaluation.Application.Products.Commands.CreateProduct;
-using Ambev.DeveloperEvaluation.Application.Products.Commands.DeleteProduct;
+﻿using Ambev.DeveloperEvaluation.Application.Products.CreateProduct;
+using Ambev.DeveloperEvaluation.Application.Products.DeleteProduct;
 using Ambev.DeveloperEvaluation.Application.Products.DTOs;
-using Ambev.DeveloperEvaluation.Application.Products.Queries.GetProductCategories;
-using Ambev.DeveloperEvaluation.Application.Products.Queries.GetProductsByCategory;
+using Ambev.DeveloperEvaluation.Application.Products.GetProductCategories;
+using Ambev.DeveloperEvaluation.Application.Products.GetProductsByCategory;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct;
 using AutoMapper;

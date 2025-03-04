@@ -10,6 +10,10 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
     {
         builder.HasKey(p => p.Id);
 
+        builder.ToTable("Products");
+
+        builder.Property(p => p.CreatedAt).IsRequired();
+
         builder.Property(p => p.Title)
             .IsRequired()
             .HasMaxLength(200);
@@ -29,13 +33,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasForeignKey(p => p.CategoryId)
             .IsRequired();
 
-        builder.HasOne<ProductRating>()
-            .WithOne()
-            .HasForeignKey<ProductRating>(pr => pr.ProductId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        builder.Property(p => p.CreatedAt).IsRequired();
-
-        builder.ToTable("Products");
+        builder.HasOne(p => p.Rating)
+           .WithOne(pr => pr.Product)
+           .HasForeignKey<ProductRating>(pr => pr.ProductId)
+           .OnDelete(DeleteBehavior.Cascade);
     }
 }
