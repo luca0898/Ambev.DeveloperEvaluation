@@ -6,7 +6,9 @@ public class CreateCustomerCommandValidator : AbstractValidator<CreateCustomerCo
 {
     public CreateCustomerCommandValidator()
     {
-        RuleFor(customer => customer.Name).NotEmpty().NotNull().Length(3, 50);
-        RuleFor(customer => customer.ExternalId).NotEmpty().NotNull().Length(1, 50);
+        RuleFor(customer => customer.ExternalId)
+            .NotEmpty()
+            .NotNull()
+            .Length(1, 50);
     }
 }

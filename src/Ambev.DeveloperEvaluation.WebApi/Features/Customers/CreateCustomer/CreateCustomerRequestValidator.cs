@@ -6,10 +6,7 @@ public class CreateCustomerRequestValidator : AbstractValidator<CreateCustomerRe
 {
     public CreateCustomerRequestValidator()
     {
-        RuleFor(customer => customer.Name)
-            .NotEmpty()
-            .NotNull()
-            .Length(3, 50);
+        RuleFor(customer => customer.UserId).NotEmpty();
 
         RuleFor(customer => customer.ExternalId)
             .NotEmpty()

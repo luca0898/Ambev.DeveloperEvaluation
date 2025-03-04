@@ -9,7 +9,5 @@ namespace Ambev.DeveloperEvaluation.Domain.Models
         public string ExternalId { get; private set; } = string.Empty;
         public DateTime CreatedAt { get; }
         public DateTime? UpdatedAt { get; }
-
-        public void SetUserId(Guid userId) => UserId = userId;
     }
 }

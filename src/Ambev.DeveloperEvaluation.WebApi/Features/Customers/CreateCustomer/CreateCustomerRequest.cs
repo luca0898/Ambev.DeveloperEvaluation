@@ -1,6 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.WebApi.Features.Users.CreateUser;
-
-namespace Ambev.DeveloperEvaluation.WebApi.Features.Customers.CreateCustomer
+﻿namespace Ambev.DeveloperEvaluation.WebApi.Features.Customers.CreateCustomer
 {
-    public sealed record CreateCustomerRequest(CreateUserRequest UserRequest, string Name, string ExternalId);
+    public sealed record CreateCustomerRequest(Guid UserId, string ExternalId);
 }

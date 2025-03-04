@@ -6,9 +6,8 @@ namespace Ambev.DeveloperEvaluation.Application.Customers.CreateCustomer;
 
 public sealed class CreateCustomerCommand : IRequest<CreateCustomerResult>
 {
-    public CreateUserCommand UserCommand { get; set; }
-    public string Name { get; set; }
-    public string ExternalId { get; set; }
+    public Guid UserId { get; set; }
+    public string ExternalId { get; set; } = string.Empty;
 
     public ValidationResultDetail Validate()
     {

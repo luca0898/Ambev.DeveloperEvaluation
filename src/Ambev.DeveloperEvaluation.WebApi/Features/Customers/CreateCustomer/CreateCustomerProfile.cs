@@ -7,8 +7,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Customers.CreateCustomer
     {
         public CreateCustomerProfile()
         {
-            CreateMap<CreateCustomerRequest, CreateCustomerCommand>()
-                .ForMember(dest => dest.UserCommand, opt => opt.MapFrom(src => src.UserRequest));
+            CreateMap<CreateCustomerRequest, CreateCustomerCommand>();
             CreateMap<CreateCustomerResult, CreateCustomerResponse>().ReverseMap();
         }
     }

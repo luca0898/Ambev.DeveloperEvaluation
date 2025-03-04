@@ -14,8 +14,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Customers
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponseWithData<CreateCustomerResponse>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomerRequest request,
-            CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomerRequest request, CancellationToken cancellationToken)
         {
             var validator = new CreateCustomerRequestValidator();
             var validationResult = await validator.ValidateAsync(request, cancellationToken);

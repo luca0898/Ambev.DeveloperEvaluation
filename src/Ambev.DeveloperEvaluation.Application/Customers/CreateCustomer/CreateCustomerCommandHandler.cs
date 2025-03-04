@@ -1,4 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Models;
+using Ambev.DeveloperEvaluation.Domain.Models.UserAggregate.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using FluentValidation;
@@ -6,7 +7,7 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Customers.CreateCustomer;
 
-public class CreateCustomerCommandHandler(ICustomerRepository customerRepository, IMapper mapper, IMediator mediator)
+public class CreateCustomerCommandHandler(ICustomerRepository customerRepository, IUserRepository userRepository, IMapper mapper, IMediator mediator)
 : IRequestHandler<CreateCustomerCommand, CreateCustomerResult>
 {
     public async Task<CreateCustomerResult> Handle(CreateCustomerCommand command, CancellationToken cancellationToken)
@@ -17,14 +18,13 @@ public class CreateCustomerCommandHandler(ICustomerRepository customerRepository
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var createdUser = await mediator.Send(command.UserCommand, cancellationToken);
+        User user = await userRepository.GetByIdAsync(command.UserId, cancellationToken);
+        _ = user ?? throw new KeyNotFoundException($"User with ID {command.UserId} not found");
 
-        var customer = mapper.Map<Customer>(command);
-
-        customer.SetUserId(createdUser.Id);
+        var customer = mapper.Map<Customer>(user);
 
         var createdCustomer = await customerRepository.CreateAsync(customer, cancellationToken);
-        var result = mapper.Map<CreateCustomerResult>(createdCustomer);
-        return result;
+
+        return mapper.Map<CreateCustomerResult>(createdCustomer);
     }
 }
