@@ -9,6 +9,7 @@ public class CreateUserProfile : Profile
 {
     public CreateUserProfile()
     {
+        CreateMap<CreateUserResult, CreateUserResponse>();
         CreateMap<CreateUserRequest, CreateUserCommand>();
         CreateMap<GetListUsersRequest, GetAllUsersCommand>()
             .ForMember(dest => dest.Page, opt => opt.MapFrom(src => src.PageNumber))

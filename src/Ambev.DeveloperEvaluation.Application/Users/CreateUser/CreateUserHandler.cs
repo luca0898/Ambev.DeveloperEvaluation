@@ -1,5 +1,7 @@
 ﻿using Ambev.DeveloperEvaluation.Common.Security;
+using Ambev.DeveloperEvaluation.Domain.Models;
 using Ambev.DeveloperEvaluation.Domain.Models.UserAggregate.Entities;
+using Ambev.DeveloperEvaluation.Domain.Models.UserAggregate.Enums;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using FluentValidation;
@@ -8,9 +10,10 @@ using MediatR;
 namespace Ambev.DeveloperEvaluation.Application.Users.CreateUser;
 
 public class CreateUserHandler(
-    IUserRepository _userRepository,
-    IMapper _mapper,
-    IPasswordHasher _passwordHasher)
+    IUserRepository userRepository,
+    ICustomerRepository customerRepository,
+    IMapper mapper,
+    IPasswordHasher passwordHasher)
     : IRequestHandler<CreateUserCommand, CreateUserResult>
 {
 
@@ -22,15 +25,27 @@ public class CreateUserHandler(
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var existingUser = await _userRepository.GetByEmailAsync(command.Email, cancellationToken);
+        var existingUser = await userRepository.GetByEmailAsync(command.Email, cancellationToken);
         if (existingUser != null)
             throw new InvalidOperationException($"User with email {command.Email} already exists");
 
-        var user = _mapper.Map<User>(command);
-        user.Password = _passwordHasher.HashPassword(command.Password);
+        var user = mapper.Map<User>(command);
+        user.Password = passwordHasher.HashPassword(command.Password);
 
-        var createdUser = await _userRepository.CreateAsync(user, cancellationToken);
+        var createdUser = await userRepository.CreateAsync(user, cancellationToken);
 
-        return _mapper.Map<CreateUserResult>(createdUser);
+        if (createdUser.Role == UserRole.Customer)
+        {
+            var existingCustomer = await customerRepository.GetUserByIdAsync(createdUser.Id, cancellationToken);
+
+            if (existingCustomer is null)
+            {
+                var customer = mapper.Map<Customer>(createdUser);
+
+                await customerRepository.CreateAsync(customer, cancellationToken);
+            }
+        }
+
+        return mapper.Map<CreateUserResult>(createdUser);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Models;
-using Ambev.DeveloperEvaluation.Domain.Models.UserAggregate.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using FluentValidation;
@@ -18,7 +17,7 @@ public class CreateCustomerCommandHandler(ICustomerRepository customerRepository
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        User user = await userRepository.GetByIdAsync(command.UserId, cancellationToken);
+        var user = await userRepository.GetByIdAsync(command.UserId, cancellationToken);
         _ = user ?? throw new KeyNotFoundException($"User with ID {command.UserId} not found");
 
         var customer = mapper.Map<Customer>(user);

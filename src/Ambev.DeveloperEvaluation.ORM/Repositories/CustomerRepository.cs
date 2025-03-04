@@ -25,6 +25,11 @@ public class CustomerRepository : ICustomerRepository
         return await _context.Customers.FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
     }
 
+    public async Task<Customer?> GetUserByIdAsync(Guid userId, CancellationToken cancellationToken = default)
+    {
+        return await _context.Customers.FirstOrDefaultAsync(o => o.UserId == userId, cancellationToken);
+    }
+
     public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var customer = await GetByIdAsync(id, cancellationToken);
