@@ -13,6 +13,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application;
 public class CreateUserHandlerTests
 {
     private readonly IUserRepository _userRepository;
+    private readonly ICustomerRepository _customerRepository;
     private readonly IMapper _mapper;
     private readonly IPasswordHasher _passwordHasher;
     private readonly CreateUserHandler _handler;
@@ -20,9 +21,10 @@ public class CreateUserHandlerTests
     public CreateUserHandlerTests()
     {
         _userRepository = Substitute.For<IUserRepository>();
+        _customerRepository = Substitute.For<ICustomerRepository>();
         _mapper = Substitute.For<IMapper>();
         _passwordHasher = Substitute.For<IPasswordHasher>();
-        _handler = new CreateUserHandler(_userRepository, _mapper, _passwordHasher);
+        _handler = new CreateUserHandler(_userRepository, _customerRepository, _mapper, _passwordHasher);
     }
 
     [Fact(DisplayName = "Given valid user data When creating user Then returns success response")]
