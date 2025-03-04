@@ -3,8 +3,10 @@ using Ambev.DeveloperEvaluation.Application.Products.DeleteProduct;
 using Ambev.DeveloperEvaluation.Application.Products.DTOs;
 using Ambev.DeveloperEvaluation.Application.Products.GetProductCategories;
 using Ambev.DeveloperEvaluation.Application.Products.GetProductsByCategory;
+using Ambev.DeveloperEvaluation.Application.Products.UpdateProduct;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -44,6 +46,22 @@ public class ProductsController : ControllerBase
             Message = "Product created successfully",
             Data = _mapper.Map<CreateProductResponse>(response)
         });
+    }
+    [HttpPut]
+    [ProducesResponseType(typeof(ApiResponseWithData<UpdateProductResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductRequest request, CancellationToken cancellationToken)
+    {
+        var validator = new UpdateProductRequestValidator();
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+        if (!validationResult.IsValid)
+            return BadRequest(validationResult.Errors);
+
+        var command = _mapper.Map<UpdateProductCommand>(request);
+        var response = await _mediator.Send(command, cancellationToken);
+
+        return Ok(_mapper.Map<UpdateProductResponse>(response));
     }
 
     [HttpDelete("{id:int}")]

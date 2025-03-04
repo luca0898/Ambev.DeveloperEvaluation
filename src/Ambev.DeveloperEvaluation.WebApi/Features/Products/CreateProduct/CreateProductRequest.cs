@@ -6,6 +6,6 @@ public sealed record CreateProductRequest(
     string Description,
     string Category,
     string Image,
-    ProductRatingRequest Rating
+    CreateProductRatingRequest Rating
 );
-public sealed record ProductRatingRequest(double Rate, int Count);
+public sealed record CreateProductRatingRequest(double Rate, int Count);

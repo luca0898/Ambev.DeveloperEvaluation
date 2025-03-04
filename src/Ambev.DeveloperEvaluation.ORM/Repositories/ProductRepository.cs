@@ -22,7 +22,10 @@ public class ProductRepository : IProductRepository
 
     public async Task<Product?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _context.Products.FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+        return await _context.Products
+            .Include(p => p.Category)
+            .Include(p => p.Rating)
+            .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 
     public async Task<Product> UpdateAsync(Product product, CancellationToken cancellationToken = default)

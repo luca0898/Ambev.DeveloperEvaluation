@@ -1,11 +1,13 @@
 ﻿using FluentValidation;
 
-namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct;
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct;
 
-public class CreateProductRequestValidator : AbstractValidator<CreateProductRequest>
+public class UpdateProductRequestValidator : AbstractValidator<UpdateProductRequest>
 {
-    public CreateProductRequestValidator()
+    public UpdateProductRequestValidator()
     {
+        RuleFor(product => product.Id).NotEmpty();
+
         RuleFor(product => product.Title).NotEmpty().NotNull().Length(3, 50);
 
         RuleFor(product => product.Price).NotEmpty().NotNull().GreaterThan(0);
@@ -18,8 +20,7 @@ public class CreateProductRequestValidator : AbstractValidator<CreateProductRequ
 
         RuleFor(product => product.Rating).NotNull().SetValidator(new ProductRatingRequestValidator());
     }
-
-    public class ProductRatingRequestValidator : AbstractValidator<CreateProductRatingRequest>
+    public class ProductRatingRequestValidator : AbstractValidator<UpdateProductRatingRequest>
     {
         public ProductRatingRequestValidator()
         {
