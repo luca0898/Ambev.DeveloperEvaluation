@@ -35,7 +35,7 @@ public class KeyNotFoundExceptionMiddleware
             Message = "Validation Failed",
             Errors = [ new() {
                 Detail = exception.Message,
-                Error = "Requested record has not been found"
+                Error = "Something went wrong, see details for explanation"
             }]
         };
 

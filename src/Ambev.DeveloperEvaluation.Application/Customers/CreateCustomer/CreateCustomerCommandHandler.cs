@@ -20,6 +20,9 @@ public class CreateCustomerCommandHandler(ICustomerRepository customerRepository
         var user = await userRepository.GetByIdAsync(command.UserId, cancellationToken);
         _ = user ?? throw new KeyNotFoundException($"User with ID {command.UserId} not found");
 
+        var existingCustomer = await customerRepository.GetCustomerByUserIdAsync(command.UserId, cancellationToken);
+        if (existingCustomer != null) throw new KeyNotFoundException($"A customer with UserId {command.UserId} already exists");
+
         var customer = mapper.Map<Customer>(user);
 
         var createdCustomer = await customerRepository.CreateAsync(customer, cancellationToken);

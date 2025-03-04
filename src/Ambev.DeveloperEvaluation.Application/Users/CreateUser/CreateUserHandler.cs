@@ -36,7 +36,7 @@ public class CreateUserHandler(
 
         if (createdUser.Role == UserRole.Customer)
         {
-            var existingCustomer = await customerRepository.GetUserByIdAsync(createdUser.Id, cancellationToken);
+            var existingCustomer = await customerRepository.GetCustomerByUserIdAsync(createdUser.Id, cancellationToken);
 
             if (existingCustomer is null)
             {

@@ -20,16 +20,6 @@ public class CustomerRepository : ICustomerRepository
         return customer;
     }
 
-    public async Task<Customer?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-    {
-        return await _context.Customers.FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
-    }
-
-    public async Task<Customer?> GetUserByIdAsync(Guid userId, CancellationToken cancellationToken = default)
-    {
-        return await _context.Customers.FirstOrDefaultAsync(o => o.UserId == userId, cancellationToken);
-    }
-
     public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var customer = await GetByIdAsync(id, cancellationToken);
@@ -39,5 +29,15 @@ public class CustomerRepository : ICustomerRepository
         _context.Customers.Remove(customer);
         await _context.SaveChangesAsync(cancellationToken);
         return true;
+    }
+
+    public async Task<Customer?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await _context.Customers.FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
+    }
+
+    public async Task<Customer?> GetCustomerByUserIdAsync(Guid userId, CancellationToken cancellationToken = default)
+    {
+        return await _context.Customers.FirstOrDefaultAsync(o => o.UserId == userId, cancellationToken);
     }
 }
