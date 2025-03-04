@@ -12,20 +12,20 @@ public class UserTests
     {
         var user = UserTestData.GenerateValidUser();
         user.Status = UserStatus.Suspended;
-        
+
         user.Activate();
-        
+
         Assert.Equal(UserStatus.Active, user.Status);
     }
     [Fact(DisplayName = "User status should change to Suspended when suspended")]
     public void Given_ActiveUser_When_Suspended_Then_StatusShouldBeSuspended()
     {
         var user = UserTestData.GenerateValidUser();
-        
+
         user.Status = UserStatus.Active;
-        
+
         user.Suspend();
-        
+
         Assert.Equal(UserStatus.Suspended, user.Status);
     }
     [Fact(DisplayName = "Validation should pass for valid user data")]
@@ -50,9 +50,9 @@ public class UserTests
             Status = UserStatus.Unknown,
             Role = UserRole.None
         };
-        
+
         var result = user.Validate();
-        
+
         Assert.False(result.IsValid);
         Assert.NotEmpty(result.Errors);
     }
