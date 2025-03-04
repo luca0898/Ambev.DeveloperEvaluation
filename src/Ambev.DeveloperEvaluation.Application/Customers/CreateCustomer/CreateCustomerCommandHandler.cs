@@ -6,8 +6,8 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Customers.CreateCustomer;
 
-public class CreateCustomerCommandHandler(ICustomerRepository customerRepository, IUserRepository userRepository, IMapper mapper, IMediator mediator)
-: IRequestHandler<CreateCustomerCommand, CreateCustomerResult>
+public class CreateCustomerCommandHandler(ICustomerRepository customerRepository, IUserRepository userRepository, IMapper mapper)
+    : IRequestHandler<CreateCustomerCommand, CreateCustomerResult>
 {
     public async Task<CreateCustomerResult> Handle(CreateCustomerCommand command, CancellationToken cancellationToken)
     {

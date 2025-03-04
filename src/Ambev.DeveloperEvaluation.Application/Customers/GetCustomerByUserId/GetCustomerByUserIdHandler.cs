@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Customers.GetCustomerByUserId;
 
-public class GetCustomerByUserIdCommandHandler(ICustomerRepository customerRepository, IMapper mapper) 
+public class GetCustomerByUserIdCommandHandler(ICustomerRepository customerRepository, IMapper mapper)
     : IRequestHandler<GetCustomerByUserIdCommand, GetCustomerByUserIdResult>
 {
     public async Task<GetCustomerByUserIdResult> Handle(GetCustomerByUserIdCommand command, CancellationToken cancellationToken)
