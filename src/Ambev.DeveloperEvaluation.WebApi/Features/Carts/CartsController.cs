@@ -1,9 +1,9 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Carts.Commands.UpdateCart;
 using Ambev.DeveloperEvaluation.Application.Carts.CreateCart;
 using Ambev.DeveloperEvaluation.Application.Carts.DeleteCart;
+using Ambev.DeveloperEvaluation.Application.Carts.Queries.GetAllCarts;
 using Ambev.DeveloperEvaluation.Application.Carts.Queries.GetCart;
 using Ambev.DeveloperEvaluation.Application.Carts.Queries.GetCartById;
-using Ambev.DeveloperEvaluation.Application.Carts.Queries.ListCarts;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -12,31 +12,32 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CartsController : BaseController
+    public class CartsController(IMediator mediator) : BaseController
     {
-        private readonly IMediator _mediator;
-
-        public CartsController(IMediator mediator)
-        {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-        }
-
         [HttpGet]
-        [ProducesResponseType(typeof(ApiResponseWithData<ListCartsResult>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponseWithData<GetAllCartsResult>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetCarts(
-        [FromQuery] int _page = 1,
-        [FromQuery] int _size = 10,
-        [FromQuery] string? _order = null,
-        CancellationToken cancellationToken = default)
+            [FromQuery(Name = "_page")] int page = 1,
+            [FromQuery(Name = "_size")] int size = 10,
+            [FromQuery(Name = "_order")] string order = "",
+            CancellationToken cancellationToken = default)
         {
-            var query = new ListCartsQuery(_page, _size, _order);
-            var response = await _mediator.Send(query, cancellationToken);
-
-            return OK(new ApiResponseWithData<ListCartsResult>
+            var query = new GetAllCartsQuery
             {
-                Success = true,
-                Message = "Carts retrieved successfully",
-                Data = response
+                Page = page,
+                Size = size,
+                Order = order
+            };
+
+            var response = await mediator.Send(query, cancellationToken);
+
+            return Ok(new
+            {
+                Data = response.Items,
+                CurrentPage = response.PageNumber,
+                response.TotalItems,
+                TotalPages = (int)Math.Ceiling(response.TotalItems / (double)size),
             });
         }
 
@@ -54,7 +55,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
                 });
             }
 
-            var response = await _mediator.Send(command, cancellationToken);
+            var response = await mediator.Send(command, cancellationToken);
 
             if (response == null)
                 return BadRequest("Failed to create the cart. Please try again.");
@@ -73,7 +74,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
         public async Task<IActionResult> GetCartById([FromRoute] Guid id, CancellationToken cancellationToken)
         {
             var query = new GetCartQuery(id);
-            var response = await _mediator.Send(query, cancellationToken);
+            var response = await mediator.Send(query, cancellationToken);
 
             return OK(new ApiResponseWithData<GetCartResult>
             {
@@ -92,9 +93,9 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
             CancellationToken cancellationToken)
         {
             command = command with { Id = id };
-            var response = await _mediator.Send(command, cancellationToken);
+            var response = await mediator.Send(command, cancellationToken);
 
-            return OK(new ApiResponseWithData<UpdateCartResult>
+            return Ok(new ApiResponseWithData<UpdateCartResult>
             {
                 Success = true,
                 Message = "Cart updated successfully",
@@ -107,7 +108,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteCart([FromRoute] Guid id, CancellationToken cancellationToken)
         {
-            await _mediator.Send(new DeleteCartCommand(id), cancellationToken);
+            await mediator.Send(new DeleteCartCommand(id), cancellationToken);
 
             return OK(new ApiResponse
             {

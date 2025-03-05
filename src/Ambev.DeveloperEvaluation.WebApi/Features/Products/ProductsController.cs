@@ -15,6 +15,7 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Products;
 
@@ -58,7 +59,7 @@ public class ProductsController : ControllerBase
     [ProducesResponseType(typeof(PaginatedResponse<ListProductsResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetAllAsync(
-        [FromQuery(Name = "_order")] string order,
+        [FromQuery(Name = "_order")] string order = "",
         [FromQuery(Name = "_page")] int page = 1,
         [FromQuery(Name = "_size")] int size = 10,
         CancellationToken cancellationToken = default)

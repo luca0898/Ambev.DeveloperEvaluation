@@ -28,8 +28,8 @@ namespace Ambev.DeveloperEvaluation.Domain.Models.CartDomain.Entities
 
         public void RemoveProduct(Guid productId)
         {
-            var product = _products.Find(p => p.ProductId == productId)
-                          ?? throw new KeyNotFoundException($"Product with ID {productId} not found in cart.");
+            var product = _products.Find(p => p.ProductId == productId);
+            _ = product ?? throw new KeyNotFoundException($"Product with ID {productId} not found in cart.");
 
             _products.Remove(product);
         }
@@ -45,7 +45,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Models.CartDomain.Entities
             if (existingProduct is not null)
                 existingProduct.UpdateQuantity(quantity);
             else
-                _products.Add(new CartItem(Id, productId, quantity));
+                _products.Add(new CartItem { Id = Guid.NewGuid(), ProductId = productId, Quantity = quantity });
         }
     }
 }

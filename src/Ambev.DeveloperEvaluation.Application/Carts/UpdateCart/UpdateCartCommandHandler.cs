@@ -12,7 +12,7 @@ public class UpdateCartCommandHandler(ICartRepository _cartRepository, IMapper _
         var cart = await _cartRepository.GetByIdAsync(command.Id, cancellationToken);
         _ = cart ?? throw new KeyNotFoundException($"Cart with ID {command.Id} has not found");
 
-        var updatedItems = command.Products.Select(p => new CartItem(cart.Id, p.ProductId, p.Quantity)).ToArray();
+        var updatedItems = command.Products.Select(p => new CartItem { Id = Guid.NewGuid(), ProductId = p.ProductId, Quantity = p.Quantity }).ToArray();
 
         cart.UpdateItems(updatedItems);
 

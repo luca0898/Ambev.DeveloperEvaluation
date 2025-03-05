@@ -2,16 +2,16 @@
 using Ambev.DeveloperEvaluation.Domain.Models.CartDomain.Entities;
 using AutoMapper;
 
-namespace Ambev.DeveloperEvaluation.Application.Carts.Queries.GetCart;
+namespace Ambev.DeveloperEvaluation.Application.Carts.Queries.GetAllCarts;
 
-public class GetCartsProfile : Profile
+public class GetAllCartsProfile : Profile
 {
-    public GetCartsProfile()
+    public GetAllCartsProfile()
     {
-        CreateMap<Cart, GetCartResult>()
+        CreateMap<Cart, GetAllCartsResult>()
             .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products))
             .ReverseMap();
 
-        CreateMap<CartItem, CartItemDto>().ReverseMap();
+        CreateMap<CartItem, GetAllCartsItemResult>().ReverseMap();
     }
 }

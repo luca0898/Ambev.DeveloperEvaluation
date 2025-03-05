@@ -15,7 +15,9 @@ public class CreateCartHandler(ICartRepository _cartRepository, IMapper _mapper)
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var createdCart = await _cartRepository.CreateAsync(_mapper.Map<Cart>(command), cancellationToken);
+        var cart = _mapper.Map<Cart>(command);
+
+        var createdCart = await _cartRepository.CreateAsync(cart, cancellationToken);
 
         return _mapper.Map<CreateCartResult>(createdCart);
     }

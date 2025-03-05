@@ -9,7 +9,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetCart
     {
         public GetCartProfile()
         {
-            CreateMap<GetCartResponse, GetCartByIdResult>().ReverseMap();
+            CreateMap<GetCartResponse, GetCartsResult>().ReverseMap();
             CreateMap<CartItemDto, CartItemCommand>().ReverseMap();
         }
     }

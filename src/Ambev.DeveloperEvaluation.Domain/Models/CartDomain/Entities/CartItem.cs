@@ -2,11 +2,11 @@
 
 namespace Ambev.DeveloperEvaluation.Domain.Models.CartDomain.Entities
 {
-    public class CartItem(Guid cartId, Guid productId, int quantity) : BaseEntity
+    public class CartItem : BaseEntity
     {
-        public Guid ProductId { get; private set; } = productId;
-        public int Quantity { get; private set; } = quantity;
-        public Guid CartId { get; private set; } = cartId;
+        public Guid ProductId { get; set; }
+        public int Quantity { get; set; }
+        public Guid CartId { get; set; }
         public Cart Cart { get; }
 
         public void UpdateQuantity(int quantity)

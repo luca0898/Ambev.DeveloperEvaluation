@@ -1,6 +1,6 @@
 ﻿namespace Ambev.DeveloperEvaluation.Application.Carts.Queries.GetCartById;
 
-public class GetCartByIdResult
+public class GetCartsResult
 {
     public Guid Id { get; set; }
     public Guid UserId { get; set; }

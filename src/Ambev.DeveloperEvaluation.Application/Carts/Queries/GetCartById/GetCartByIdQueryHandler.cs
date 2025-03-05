@@ -4,12 +4,12 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.Queries.GetCartById;
 
-public class GetCartByIdQueryHandler : IRequestHandler<GetCartByIdQuery, GetCartByIdResponse?>
+public class GetCartsHandler : IRequestHandler<GetCartByIdQuery, GetCartByIdResponse?>
 {
     private readonly ICartRepository _repository;
     private readonly IMapper _mapper;
 
-    public GetCartByIdQueryHandler(ICartRepository repository, IMapper mapper)
+    public GetCartsHandler(ICartRepository repository, IMapper mapper)
     {
         _repository = repository;
         _mapper = mapper;
