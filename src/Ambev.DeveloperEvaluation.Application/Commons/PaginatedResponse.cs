@@ -1,4 +1,4 @@
-﻿namespace Ambev.DeveloperEvaluation.Application.Users;
+﻿namespace Ambev.DeveloperEvaluation.Application.Commons;
 
 public class PaginatedResponse<T>
 {

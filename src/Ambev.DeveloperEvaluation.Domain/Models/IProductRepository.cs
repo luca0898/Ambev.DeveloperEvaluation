@@ -22,4 +22,6 @@ public interface IProductRepository
         string? order,
         CancellationToken cancellationToken = default
     );
+    Task<int> CountAsync(CancellationToken cancellationToken = default);
+    Task<IEnumerable<Product>> GetAllAsync(int page, int size, string order, CancellationToken cancellationToken = default);
 }

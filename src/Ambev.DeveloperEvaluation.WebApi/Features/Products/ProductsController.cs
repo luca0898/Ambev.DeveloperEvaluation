@@ -4,10 +4,13 @@ using Ambev.DeveloperEvaluation.Application.Products.DTOs;
 using Ambev.DeveloperEvaluation.Application.Products.GetProduct;
 using Ambev.DeveloperEvaluation.Application.Products.GetProductCategories;
 using Ambev.DeveloperEvaluation.Application.Products.GetProductsByCategory;
+using Ambev.DeveloperEvaluation.Application.Products.ListProducts;
 using Ambev.DeveloperEvaluation.Application.Products.UpdateProduct;
+using Ambev.DeveloperEvaluation.Domain.Models;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.ListProducts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct;
 using AutoMapper;
 using MediatR;
@@ -49,6 +52,41 @@ public class ProductsController : ControllerBase
             Message = "Product retrieved successfully.",
             Data = _mapper.Map<GetProductResponse>(result)
         });
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(PaginatedResponse<ListProductsResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetAllAsync(
+        [FromQuery(Name = "_order")] string order,
+        [FromQuery(Name = "_page")] int page = 1,
+        [FromQuery(Name = "_size")] int size = 10,
+        CancellationToken cancellationToken = default)
+    {
+        if (page < 1)
+            return BadRequest(new ApiResponse
+            {
+                Success = false,
+                Message = "Page must be greater than 0."
+            });
+
+        if (size < 1)
+            return BadRequest(new ApiResponse
+            {
+                Success = false,
+                Message = "Size must be greater than 0."
+            });
+
+        var query = new GetAllProductsQuery
+        {
+            Order = order,
+            Page = page,
+            Size = size
+        };
+
+        var result = await _mediator.Send(query, cancellationToken);
+
+        return Ok(result);
     }
 
     [HttpPost]

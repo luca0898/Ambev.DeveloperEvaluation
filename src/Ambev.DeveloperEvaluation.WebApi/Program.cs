@@ -60,6 +60,7 @@ public class Program
 
             app.ApplyMigrations();
 
+            app.UseMiddleware<OrderingExceptionMiddleware>();
             app.UseMiddleware<KeyNotFoundExceptionMiddleware>();
             app.UseMiddleware<ValidationExceptionMiddleware>();
 

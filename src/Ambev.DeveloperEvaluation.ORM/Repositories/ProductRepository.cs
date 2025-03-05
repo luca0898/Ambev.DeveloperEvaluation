@@ -1,6 +1,8 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.Domain.Models;
+using Ambev.DeveloperEvaluation.Domain.Models.UserAggregate.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Ambev.DeveloperEvaluation.ORM.Repositories;
 
@@ -93,6 +95,7 @@ public class ProductRepository : IProductRepository
         CancellationToken cancellationToken = default)
     {
         var query = _context.Products
+            .Include(p => p.Rating)
             .Include(p => p.Category)
             .Where(p => p.Category.Name == category)
             .AsNoTracking();
@@ -110,6 +113,28 @@ public class ProductRepository : IProductRepository
 
         return PaginatedList<Product>.Create(items, totalItems, page, size);
     }
+
+    public async Task<IEnumerable<Product>> GetAllAsync(int page, int size, string order, CancellationToken cancellationToken = default)
+    {
+        IQueryable<Product> query = _context.Products
+            .Include(p => p.Category)
+            .Include(p => p.Rating);
+
+        if (!string.IsNullOrWhiteSpace(order))
+            query = ApplyOrdering(query, order);
+
+        query = query
+            .Skip((page - 1) * size)
+            .Take(size);
+
+        return await query.ToListAsync(cancellationToken);
+    }
+
+    public async Task<int> CountAsync(CancellationToken cancellationToken = default)
+    {
+        return await _context.Products.CountAsync(cancellationToken);
+    }
+
     private IQueryable<Product> ApplyOrdering(IQueryable<Product> query, string order)
     {
         var orderFields = order.Split(',');
