@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Ambev.DeveloperEvaluation.ORM.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -46,6 +46,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    Deleted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     Username = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Phone = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),

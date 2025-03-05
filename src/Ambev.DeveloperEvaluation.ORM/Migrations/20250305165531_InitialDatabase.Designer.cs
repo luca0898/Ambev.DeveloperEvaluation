@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ambev.DeveloperEvaluation.ORM.Migrations
 {
     [DbContext(typeof(DefaultContext))]
-    [Migration("20250305143529_AddUserDeletedColumn")]
-    partial class AddUserDeletedColumn
+    [Migration("20250305165531_InitialDatabase")]
+    partial class InitialDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
