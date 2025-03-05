@@ -1,0 +1,3 @@
+services:
+  ambev.developerevaluation.webapi:
+    entrypoint: ["sh", "-c", "dotnet ef database update && dotnet MinhaApi.dll"]

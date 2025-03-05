@@ -1,86 +1,76 @@
-# Developer Evaluation Project
+# Ambev.DeveloperEvaluation.WebApi
 
-`READ CAREFULLY`
+## Description
 
-## Instructions
-**The test below will have up to 7 calendar days to be delivered from the date of receipt of this manual.**
+**Ambev.DeveloperEvaluation.WebApi** is an API developed as part of a challenge for a .NET software developer position. This application showcases modern practices in building RESTful APIs with .NET, containerized for easy deployment and execution.
 
-- The code must be versioned in a public Github repository and a link must be sent for evaluation once completed
-- Upload this template to your repository and start working from it
-- Read the instructions carefully and make sure all requirements are being addressed
-- The repository must provide instructions on how to configure, execute and test the project
-- Documentation and overall organization will also be taken into consideration
+## Prerequisites
 
-## Use Case
-**You are a developer on the DeveloperStore team. Now we need to implement the API prototypes.**
+Before running the application, ensure that you have the following installed:
 
-As we work with `DDD`, to reference entities from other domains, we use the `External Identities` pattern with denormalization of entity descriptions.
+- **.NET SDK**  
+  Download and install the .NET SDK from [https://dotnet.microsoft.com/download](https://dotnet.microsoft.com/download).
 
-Therefore, you will write an API (complete CRUD) that handles sales records. The API needs to be able to inform:
+- **Docker**  
+  Download and install Docker Desktop from [https://www.docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop).
 
-* Sale number
-* Date when the sale was made
-* Customer
-* Total sale amount
-* Branch where the sale was made
-* Products
-* Quantities
-* Unit prices
-* Discounts
-* Total amount for each item
-* Cancelled/Not Cancelled
+- **Docker Compose**  
+  Docker Compose is usually included with Docker Desktop.
 
-It's not mandatory, but it would be a differential to build code for publishing events of:
-* SaleCreated
-* SaleModified
-* SaleCancelled
-* ItemCancelled
+## Setup and Execution
 
-If you write the code, **it's not required** to actually publish to any Message Broker. You can log a message in the application log or however you find most convenient.
+### 1. Clone the Repository
 
-### Business Rules
+Clone the project repository and navigate into the directory:
 
-* Purchases above 4 identical items have a 10% discount
-* Purchases between 10 and 20 identical items have a 20% discount
-* It's not possible to sell above 20 identical items
-* Purchases below 4 items cannot have a discount
+```bash
+git clone https://github.com/your-username/Ambev.DeveloperEvaluation.WebApi.git
+cd Ambev.DeveloperEvaluation.WebApi
+```
 
-These business rules define quantity-based discounting tiers and limitations:
+### 2. Configure the Application
 
-1. Discount Tiers:
-   - 4+ items: 10% discount
-   - 10-20 items: 20% discount
+Ensure that `appsettings.json` is properly configured with database connections, logging, and other necessary settings.
 
-2. Restrictions:
-   - Maximum limit: 20 items per product
-   - No discounts allowed for quantities below 4 items
+### 3. Running the Application with Docker Compose
 
-## Overview
-This section provides a high-level overview of the project and the various skills and competencies it aims to assess for developer candidates. 
+To start the application using Docker Compose, follow these steps:
 
-See [Overview](/.doc/overview.md)
+1. Make sure Docker and Docker Compose are running.
+2. Run the following command from the project root:
 
-## Tech Stack
-This section lists the key technologies used in the project, including the backend, testing, frontend, and database components. 
+   ```bash
+   docker compose up --build
+   ```
 
-See [Tech Stack](/.doc/tech-stack.md)
+   The `--build` flag ensures that images are rebuilt as needed.
 
-## Frameworks
-This section outlines the frameworks and libraries that are leveraged in the project to enhance development productivity and maintainability. 
+3. Once the containers are up, the API will be accessible at `http://localhost:<port>` as defined in `docker-compose.yml`.
 
-See [Frameworks](/.doc/frameworks.md)
+### 4. Stopping the Application
 
-<!-- 
-## API Structure
-This section includes links to the detailed documentation for the different API resources:
-- [API General](./docs/general-api.md)
-- [Products API](/.doc/products-api.md)
-- [Carts API](/.doc/carts-api.md)
-- [Users API](/.doc/users-api.md)
-- [Auth API](/.doc/auth-api.md)
--->
+To stop the running containers, execute:
 
-## Project Structure
-This section describes the overall structure and organization of the project files and directories. 
+```bash
+docker compose down
+```
 
-See [Project Structure](/.doc/project-structure.md)
+## API Documentation
+
+For detailed information on available endpoints, request/response examples, and expected behaviors, refer to the [`API.md`](./API.md) file, which contains the definitions extracted from `swagger.json`.
+
+## Running Tests and Coverage Report
+
+To run tests and generate a coverage report, use one of the provided scripts:
+
+```bash
+./coverage-report.bash
+```
+or  
+```bash
+./coverage-report.sh
+```
+
+These scripts will execute the test suite and generate a test coverage report.
+
+This API was developed as part of a technical challenge for a .NET developer position, demonstrating expertise in building robust and containerized applications with Docker. Feel free to explore, modify, and integrate it as needed.
