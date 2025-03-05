@@ -1,14 +1,14 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Users.CreateUser;
 using Ambev.DeveloperEvaluation.Application.Users.DeleteUser;
+using Ambev.DeveloperEvaluation.Application.Users.GetAllUsers;
 using Ambev.DeveloperEvaluation.Application.Users.GetUser;
-using Ambev.DeveloperEvaluation.Application.Users.ListUser;
 using Ambev.DeveloperEvaluation.Application.Users.UpdateUser;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Users.CreateUser;
 using Ambev.DeveloperEvaluation.WebApi.Features.Users.DeleteUser;
+using Ambev.DeveloperEvaluation.WebApi.Features.Users.GetAllUsers;
 using Ambev.DeveloperEvaluation.WebApi.Features.Users.GetUser;
-using Ambev.DeveloperEvaluation.WebApi.Features.Users.ListUsers;
 using Ambev.DeveloperEvaluation.WebApi.Features.Users.UpdateUser;
 using AutoMapper;
 using MediatR;
@@ -120,35 +120,36 @@ public class UsersController : BaseController
     }
 
     [HttpGet]
+    [ProducesResponseType(typeof(PaginatedResponse<GetAllUsersResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(GetUserResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetAll([FromQuery] GetListUsersRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAllUsers(
+        [FromQuery(Name = "_page")] int page = 1,
+        [FromQuery(Name = "_size")] int size = 10,
+        [FromQuery(Name = "_order")] string order = "",
+        CancellationToken cancellationToken = default)
     {
-        var validator = new GetListUsersRequestValidator();
+        GetAllUsersRequest request = new GetAllUsersRequest
+        {
+            Page = page,
+            Size = size,
+            Order = order
+        };
+        var validator = new GetAllUsersRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
-        var command = _mapper.Map<GetAllUsersCommand>(request);
+        var command = _mapper.Map<GetAllUsersQuery>(request);
         var response = await _mediator.Send(command, cancellationToken);
-
-        if (response == null)
-        {
-            return NotFound("No users found.");
-        }
 
         return Ok(new
         {
-            success = true,
-            message = "Users retrieved successfully",
-            data = new
-            {
-                users = response.Items,
-                totalItems = response.TotalItems,
-                currentPage = response.PageNumber,
-                totalPages = (int)Math.Ceiling((double)response.TotalItems / command.Size)
-            }
+            Data = response.Items,
+            CurrentPage = response.PageNumber,
+            response.TotalItems,
+            TotalPages = (int)Math.Ceiling(response.TotalItems / (double)size),
         });
     }
 
@@ -188,7 +189,7 @@ public class UsersController : BaseController
             });
         }
 
-        return Ok(new ApiResponse
+        return OK(new ApiResponse
         {
             Success = true,
             Message = "User deleted successfully"

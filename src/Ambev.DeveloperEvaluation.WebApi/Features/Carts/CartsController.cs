@@ -32,7 +32,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
             var query = new ListCartsQuery(_page, _size, _order);
             var response = await _mediator.Send(query, cancellationToken);
 
-            return Ok(new ApiResponseWithData<ListCartsResult>
+            return OK(new ApiResponseWithData<ListCartsResult>
             {
                 Success = true,
                 Message = "Carts retrieved successfully",
@@ -75,7 +75,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
             var query = new GetCartQuery(id);
             var response = await _mediator.Send(query, cancellationToken);
 
-            return Ok(new ApiResponseWithData<GetCartResult>
+            return OK(new ApiResponseWithData<GetCartResult>
             {
                 Success = true,
                 Message = "Cart retrieved successfully",
@@ -94,7 +94,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
             command = command with { Id = id };
             var response = await _mediator.Send(command, cancellationToken);
 
-            return Ok(new ApiResponseWithData<UpdateCartResult>
+            return OK(new ApiResponseWithData<UpdateCartResult>
             {
                 Success = true,
                 Message = "Cart updated successfully",
@@ -109,7 +109,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
         {
             await _mediator.Send(new DeleteCartCommand(id), cancellationToken);
 
-            return Ok(new ApiResponse
+            return OK(new ApiResponse
             {
                 Success = true,
                 Message = "Cart deleted successfully"

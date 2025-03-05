@@ -35,7 +35,7 @@ public class AuthController : BaseController
         var command = _mapper.Map<AuthenticateUserCommand>(request);
         var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponseWithData<AuthenticateUserResponse>
+        return OK(new ApiResponseWithData<AuthenticateUserResponse>
         {
             Success = true,
             Message = "User authenticated successfully",

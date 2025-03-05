@@ -15,6 +15,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasColumnType("uuid")
             .HasDefaultValueSql("gen_random_uuid()");
 
+        builder.Property(u => u.Deleted)
+            .IsRequired()
+            .HasDefaultValue(false);
+
         builder.Property(u => u.Username)
             .IsRequired()
             .HasMaxLength(50);

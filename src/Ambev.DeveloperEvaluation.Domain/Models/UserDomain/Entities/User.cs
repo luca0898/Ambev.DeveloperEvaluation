@@ -16,15 +16,12 @@ namespace Ambev.DeveloperEvaluation.Domain.Models.UserAggregate.Entities
             Address = new AddressDto();
         }
 
+        public bool Deleted { get; set; } = false;
         public string Username { get; set; } = string.Empty;
-
         public string Email { get; set; } = string.Empty;
-
         public string Phone { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
-
         public UserRole Role { get; set; }
-
         public UserStatus Status { get; set; }
         public NameDto Name { get; set; } = new NameDto();
         public AddressDto Address { get; set; } = new AddressDto();
@@ -38,25 +35,19 @@ namespace Ambev.DeveloperEvaluation.Domain.Models.UserAggregate.Entities
         {
             var validator = new UserValidator();
             var result = validator.Validate(this);
-            return new ValidationResultDetail
-            {
-                IsValid = result.IsValid,
-                Errors = result.Errors.Select(o => (ValidationErrorDetail)o)
-            };
+            var errors = result.Errors.Select(o => (ValidationErrorDetail)o);
+            return new ValidationResultDetail { IsValid = result.IsValid, Errors = errors };
         }
-
         public void Activate()
         {
             Status = UserStatus.Active;
             UpdatedAt = DateTime.UtcNow;
         }
-
         public void Deactivate()
         {
             Status = UserStatus.Inactive;
             UpdatedAt = DateTime.UtcNow;
         }
-
         public void Suspend()
         {
             Status = UserStatus.Suspended;
@@ -76,5 +67,4 @@ namespace Ambev.DeveloperEvaluation.Domain.Models.UserAggregate.Entities
             Activate();
         }
     }
-
 }

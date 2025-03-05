@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.ListProducts
 {
-    public class GetAllProductsQuery : IRequest<PaginatedResponse<GetAllProductsResult>>
+    public class GetAllProductsQuery : IRequest<PaginatedResult<GetAllProductsResult>>
     {
         public int Page { get; set; }
         public int Size { get; set; }

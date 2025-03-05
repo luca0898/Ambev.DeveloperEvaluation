@@ -56,7 +56,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
 
             var response = await mediator.Send(command, cancellationToken);
 
-            return Ok(new ApiResponseWithData<UpdateSaleResult>
+            return OK(new ApiResponseWithData<UpdateSaleResult>
             {
                 Success = true,
                 Message = "Sale updated successfully",
@@ -71,7 +71,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
         {
             await mediator.Send(new DeleteSaleCommand(id), cancellationToken);
 
-            return Ok(new ApiResponse
+            return OK(new ApiResponse
             {
                 Success = true,
                 Message = "Sale deleted successfully"
@@ -85,7 +85,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
         {
             var response = await mediator.Send(new GetSaleByIdQuery(id), cancellationToken);
 
-            return Ok(new ApiResponseWithData<GetSaleResult>
+            return OK(new ApiResponseWithData<GetSaleResult>
             {
                 Success = true,
                 Message = "Sale retrieved successfully",
@@ -100,7 +100,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
         {
             var response = await mediator.Send(new ListSalesQuery(), cancellationToken);
 
-            return Ok(new ApiResponseWithData<IEnumerable<GetSaleResult>>
+            return OK(new ApiResponseWithData<IEnumerable<GetSaleResult>>
             {
                 Success = true,
                 Message = "Sales retrieved successfully",
@@ -113,7 +113,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
         {
             await mediator.Send(new CancelSaleCommand(id), cancellationToken);
 
-            return Ok(new ApiResponse
+            return OK(new ApiResponse
             {
                 Success = true,
                 Message = "Sale cancelled successfully"
@@ -126,7 +126,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
         {
             await mediator.Send(new CancelItemCommand(saleId, itemId), cancellationToken);
 
-            return Ok(new ApiResponse
+            return OK(new ApiResponse
             {
                 Success = true,
                 Message = "Item cancelled successfully"

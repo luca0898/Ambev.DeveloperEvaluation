@@ -52,7 +52,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Customers
             if (response == null)
                 return NotFound();
 
-            return Ok(mapper.Map<GetCustomerByUserIdResponse>(response));
+            return OK(mapper.Map<GetCustomerByUserIdResponse>(response));
         }
     }
 }

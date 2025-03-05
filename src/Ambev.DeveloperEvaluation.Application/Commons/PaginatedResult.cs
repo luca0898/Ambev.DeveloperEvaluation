@@ -1,6 +1,6 @@
 ﻿namespace Ambev.DeveloperEvaluation.Application.Commons;
 
-public class PaginatedResponse<T>
+public class PaginatedResult<T>
 {
     public List<T> Items { get; set; } = new();
     public int TotalItems { get; set; }

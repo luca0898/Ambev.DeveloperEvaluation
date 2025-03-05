@@ -30,29 +30,29 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _context.Users.FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
+        return await _context.Users.FirstOrDefaultAsync(o => o.Id == id && o.Deleted == false, cancellationToken);
     }
 
     public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
-        return await _context.Users
-            .FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
+        return await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.Deleted == false, cancellationToken);
     }
 
     public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var user = await GetByIdAsync(id, cancellationToken);
-        if (user == null)
-            return false;
+        if (user == null) return false;
 
-        _context.Users.Remove(user);
+        user.Deleted = true;
+
         await _context.SaveChangesAsync(cancellationToken);
+
         return true;
     }
 
     public async Task<IEnumerable<User>> GetAllAsync(int page, int size, string order, CancellationToken cancellationToken = default)
     {
-        IQueryable<User> query = _context.Users;
+        IQueryable<User> query = _context.Users.Where(o => o.Deleted == false);
 
         if (!string.IsNullOrWhiteSpace(order))
         {
@@ -66,7 +66,7 @@ public class UserRepository : IUserRepository
 
     public async Task<int> CountAsync(CancellationToken cancellationToken = default)
     {
-        return await _context.Users.CountAsync(cancellationToken);
+        return await _context.Users.CountAsync(o => o.Deleted == false, cancellationToken);
     }
 
     private IQueryable<User> ApplyOrdering(IQueryable<User> query, string order)
